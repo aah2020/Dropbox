@@ -27,6 +27,11 @@ if(ENABLE_CPPCHECK)
     endif()
 endif()
 
+set(CPPCHECK_EXCLUDES
+    ${CMAKE_SOURCE_DIR}/extern/
+    ${CMAKE_BINARY_DIR}/
+)
+
 if(ENABLE_CLANG_TIDY)
     find_program(CLANGTIDY clang-tidy)
     if(CLANGTIDY)
@@ -49,22 +54,8 @@ if(ENABLE_CCACHE)
     set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE})
 endif()
 
-# if(USE_CPP17)
-#     set_property(TARGET ClaraTests PROPERTY CXX_STANDARD 17)
-#     message(STATUS "Enabled C++17")
-# elseif(USE_CPP14)
-#     set_property(TARGET ClaraTests PROPERTY CXX_STANDARD 14)
-#     message(STATUS "Enabled C++14")
-# else(USE_CPP11)
-#     set_property(TARGET ClaraTests PROPERTY CXX_STANDARD 11)
-#     message(STATUS "Enabled C++11")
-# endif()
-
-# set_property(TARGET ClaraTests PROPERTY CXX_STANDARD_REQUIRED ON)
-# set_property(TARGET ClaraTests PROPERTY CXX_EXTENSIONS OFF)
-
 enable_testing()
-# add_subdirectory(extern)
+add_subdirectory(extern)
 add_subdirectory(src)
 add_subdirectory(test_integration)
 

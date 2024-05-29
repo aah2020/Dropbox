@@ -9,3 +9,4 @@ add_library(${target} STATIC ${SRC_COMMON})
 
 # target_include_directories(${target} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(${target} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(${target} PUBLIC ${CMAKE_SOURCE_DIR}/extern)
