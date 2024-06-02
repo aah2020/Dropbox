@@ -1,57 +1,85 @@
 
-#include <fileop.h>
-#include <experimental/filesystem>
+#include "fileop.h"
+#include "log.hpp"
 #include <iostream>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <experimental/filesystem>
 
 using namespace dropbox;
 namespace fs = std::experimental::filesystem;
 
-bool dropbox::scan_dir(const std::string& path, json& dir_listing)
+bool dropbox::path_exists(const std::string& path)
 {
-    for (const auto & entry : fs::directory_iterator(path))
-        std::cout << entry.path() << std::endl;
+    struct stat sb;
+    return (stat(path.c_str(), &sb) == 0);
 }
 
-    
-// bool dropbox::scan_dir(const std::string& dir_name, json& json)
-// {
-//     // for (const auto & entry : fs::directory_iterator(path))
-// //     // std::cout << entry.path() << std::endl;
-// //         
-//     DIR *dirp;
-//     if ((dirp = opendir(dir_name.c_str())) == NULL)
-//     {
-//         std::cerr << "couldn't open " << dir_name << std::endl;
-//         return false;
-//     }
+std::ofstream dropbox::open(std::string file_name)
+{
+    std::ofstream ofs;
+    try
+    {
+        ofs.open(file_name, std::ofstream::out | std::ofstream::app);
+        if(ofs.is_open())
+        {
+            LOG(DEBUG) << "Opened " << file_name << " successfully." << std::endl;
+        }
+    }
+    catch(const std::exception& e)
+    {
+        LOG(ERROR) << e.what() << std::endl;
+    }
+    return ofs;
+}
 
-//     json obj;
-//     struct dirent *dp;
-//     while((dp = readdir(dirp)) != nullptr)
-//     {
-//         std::string d_name = dp->d_name;
-//         if(d_name != "." && d_name != "..")
-//         {
-//             json property;
-//             struct stat statDat;
-//             char full_path[MAX_PATH_LENGTH];
-//             sprintf(full_path,"%s/%s/%s", get_current_dir_name(), dir_name.c_str(), d_name.c_str());
-//             if (stat(full_path, &statDat) != 0)
-//             {
-//                 closedir(dirp);
-//                 return false;
-//             }
-//             property["full_path"] = full_path;
-//             property["mod_time"] = statDat.st_mtime;
-//             property["access_time"] = statDat.st_atime;
-//             property["size"] = statDat.st_size;
-//             property["is_dir"] = (0 != (statDat.st_mode & 0x4000));
-//             property["is_symlink"] = false;
-//             property["sync_op"] = FileOP::ADD;
-//             obj[d_name] = property;
-//         }
-//     }
-//     closedir(dirp);
+ssize_t dropbox::read_from(int socket, void* buffer, size_t nbytes)
+{
+    auto result = read(socket, buffer, nbytes);
+    LOG(DEBUG) << "Read " << result << " bytes of data" << std::endl;
+    return result;
+}
 
-//     return obj;
-// }
+bool dropbox::create_dir(const std::string &path)
+{
+    if (dropbox::path_exists(path))
+    {
+        LOG(DEBUG) << path << " exist." << std::endl;
+        return true;
+    }
+    try
+    {
+        auto res = fs::create_directory(path);
+        if (res)
+        {
+            LOG(DEBUG) << "Successfully created " << path << std::endl;
+            return res;
+        }
+    }
+    catch(const std::exception& e)
+    {
+        LOG(ERROR) << e.what() << std::endl;
+    }
+    return false;
+}
+
+std::uintmax_t dropbox::remove_all(std::string path)
+{
+    uintmax_t nitems = 0;
+    if(path.empty())
+    {
+        LOG(ERROR) << "Empty path provided." << std::endl;
+        return 0;
+    }
+    try
+    {
+        nitems = fs::remove_all(path);
+        LOG(DEBUG) << "Deleted item(s) " << path << std::endl;
+    }
+    catch(const std::exception& e)
+    {
+        LOG(ERROR) << e.what() << std::endl;
+        nitems = 0;
+    }
+    return nitems;
+}
