@@ -54,6 +54,8 @@
         "thread": "cpp",
         "typeinfo": "cpp",
         "valarray": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "condition_variable": "cpp",
+        "mutex": "cpp"
     }
 }

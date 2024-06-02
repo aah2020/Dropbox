@@ -1,44 +1,51 @@
 #include <iostream>
-#include <sys/socket.h>
-#include <thread>
-#include <chrono>
- 
-// void independentThread() 
-// {
-//     std::cout << "Starting concurrent thread.\n";
-//     std::this_thread::sleep_for(std::chrono::seconds(2));
-//     std::cout << "Exiting concurrent thread.\n";
-// }
 
-// void threadCaller() 
-// {
-//     std::cout << "Starting thread caller.\n";
-//     std::thread t(independentThread);
-//     t.detach();
-//     std::this_thread::sleep_for(std::chrono::seconds(1));
-//     std::cout << "Exiting thread caller.\n";
-// }
- 
-// int main() 
-// {
-//     threadCaller();
-//     std::this_thread::sleep_for(std::chrono::seconds(5));
-// }
+#include "dropboxServer.h"
+#include "log.hpp"
+#include "fileop.h"
 
-void process (int sock) {
-    std::cout << "Running " << std::endl;
-    // call monitor after every-10 sec
-}
+using namespace std;
 
-void accept_loop (int listen_sock) {
-    int new_sock;
-    while ((new_sock = accept(listen_sock, 0, 0)) != -1) {
-        std::thread t(process, new_sock);
-    }
-}
-
-int main()
+/// @brief Function to show usage information.
+void show_usage()
 {
-    std::cout << "Hello from server app!" << std::endl;
-    return 0;
+    LOG(INFO) << "Usage: DropboxServer <PATH>" << std::endl;
+    LOG(INFO) << "Parameters:" << std::endl;
+    LOG(INFO) << "  PATH    Complete path to synchronization directory" << std::endl;
+}
+
+int main(int argc, char *argv[])
+{
+    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::info);
+
+    // Initialize config-params with default values
+    std::string dir_name = "/home/kratos/dest_dir";
+    std::string ip = "127.0.0.1";
+    int port = 8050;
+
+    // Check dest-dir is provided or not.
+    if (argc < 2)
+    {
+        show_usage();
+        exit(EXIT_FAILURE);
+    }
+
+    // Get the directory name & check if it exists
+    // dir_name = argv[1];
+    if (!dropbox::path_exists(dir_name))
+    {
+        LOG(ERROR) << "File does not exists.";
+        exit(EXIT_FAILURE);
+    }
+
+    // // Start the server
+    // dropbox::ServerSocket s;
+    // s.bind_socket();
+    // s.set_listen_set();
+
+    // // Wait for client connection
+    // auto client_dp = s.accept_connection();
+
+    dropbox::DropboxServer server(dir_name, ip, port);
+    server.start();
 }

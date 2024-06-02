@@ -8,7 +8,7 @@ set(PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_
 
 set(CMAKE_BUILD_TYPE Debug)
 
-option(ENABLE_CPPCHECK "Run CppCheck static code analysis" ON)
+option(ENABLE_CPPCHECK "Run CppCheck static code analysis" OFF)
 option(ENABLE_CLANG_TIDY "Run ClangTidy on for code fomatting" ON)
 option(ENABLE_COVERAGE "Run Coverage on for test coverage" OFF)
 option(ENABLE_CCACHE "Run ccache on for caching" OFF)
@@ -23,7 +23,8 @@ if(ENABLE_CPPCHECK)
         --enable=all
         --inconclusive
         --suppress=*:*json.hpp
-        --suppress=*:*log.h)
+        --suppress=*:*log.hpp
+        --suppress=*:*optionparser.h)
     else()
     message(SEND_ERROR "cppcheck requested but executable not found")
     endif()

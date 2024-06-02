@@ -1,17 +1,27 @@
 project(DropboxServer)
 
 set(BINARY ${PROJECT_NAME})
-
-file(GLOB_RECURSE SERVER_SRC LIST_DIRECTORIES false *.h *.cpp)
-set(SOURCES ${SERVER_SRC})
-
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-add_executable(${BINARY} ${SERVER_SRC})
-target_link_libraries(${BINARY} PUBLIC CommonLib)
-target_link_libraries(${BINARY} PRIVATE Threads::Threads)
+set(SERVER_SRC  ${CMAKE_CURRENT_SOURCE_DIR}/src/dropboxServer.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/src/serverSocket.cpp
+)
 
-# set(LIB ${PROJECT_NAME})
-add_library(Server STATIC ${SERVER_SRC})
-# target_include_directories(ClientLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../utils/)
+add_executable(${BINARY}    ${SERVER_SRC}
+                            ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+)
+
+target_link_libraries(${BINARY} PUBLIC CommonLib stdc++fs)
+target_link_libraries(${BINARY} PRIVATE Threads::Threads)
+target_include_directories(${BINARY} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(${BINARY} PUBLIC ${CMAKE_SOURCE_DIR}/extern)
+
+# set(TARGET_LIB ServerLib)
+# add_library(${TARGET_LIB} STATIC ${SERVER_SRC})
+# target_include_directories(${TARGET_LIB} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+# target_include_directories(${TARGET_LIB} PUBLIC ${CMAKE_SOURCE_DIR}/src/lib/include)
+# target_include_directories(${TARGET_LIB} PUBLIC ${CMAKE_SOURCE_DIR}/extern)
+
+# enable_testing()
+# add_subdirectory(tests)
