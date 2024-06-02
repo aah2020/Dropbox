@@ -9,9 +9,9 @@ set(PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_
 set(CMAKE_BUILD_TYPE Debug)
 
 option(ENABLE_CPPCHECK "Run CppCheck static code analysis" ON)
-option(ENABLE_CLANG_TIDY "Run ClangTidy on for code fomatting" OFF)
+option(ENABLE_CLANG_TIDY "Run ClangTidy on for code fomatting" ON)
 option(ENABLE_COVERAGE "Run Coverage on for test coverage" OFF)
-option(ENABLE_CCACHE "Run ccache on for caching" OFF)
+option(ENABLE_CCACHE "Run ccache on for caching" ON)
 
 if(ENABLE_CPPCHECK)
     find_program(CPPCHECK cppcheck)
@@ -21,16 +21,18 @@ if(ENABLE_CPPCHECK)
         --suppress=syntaxError
         --suppress=missingIncludeSystem
         --enable=all
-        --inconclusive)
+        --inconclusive
+        --suppress=*:*json.hpp
+        --suppress=*:*log.h)
     else()
     message(SEND_ERROR "cppcheck requested but executable not found")
     endif()
 endif()
 
-set(CPPCHECK_EXCLUDES
-    ${CMAKE_SOURCE_DIR}/extern/
-    ${CMAKE_BINARY_DIR}/
-)
+# set(CPPCHECK_EXCLUDES
+#     ${CMAKE_SOURCE_DIR}/extern/
+#     ${CMAKE_BINARY_DIR}/
+# )
 
 if(ENABLE_CLANG_TIDY)
     find_program(CLANGTIDY clang-tidy)

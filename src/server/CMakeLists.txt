@@ -9,7 +9,6 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
 add_executable(${BINARY} ${SERVER_SRC})
-add_test(NAME ${BINARY} COMMAND ${BINARY})
 target_link_libraries(${BINARY} PUBLIC CommonLib)
 target_link_libraries(${BINARY} PRIVATE Threads::Threads)
 

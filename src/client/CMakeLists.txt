@@ -11,7 +11,6 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
 add_executable(${BINARY} ${CLIENT_SRC})
-add_test(NAME ${BINARY} COMMAND ${BINARY})
 target_link_libraries(${BINARY} PUBLIC CommonLib stdc++fs)
 target_include_directories(${BINARY} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(${BINARY} PUBLIC ${CMAKE_SOURCE_DIR}/extern)
