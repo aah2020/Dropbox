@@ -38,14 +38,8 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    // // Start the server
-    // dropbox::ServerSocket s;
-    // s.bind_socket();
-    // s.set_listen_set();
-
-    // // Wait for client connection
-    // auto client_dp = s.accept_connection();
-
     dropbox::DropboxServer server(dir_name, ip, port);
     server.start();
+
+    return 0;
 }
