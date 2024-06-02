@@ -11,7 +11,7 @@ set(CMAKE_BUILD_TYPE Debug)
 option(ENABLE_CPPCHECK "Run CppCheck static code analysis" ON)
 option(ENABLE_CLANG_TIDY "Run ClangTidy on for code fomatting" ON)
 option(ENABLE_COVERAGE "Run Coverage on for test coverage" OFF)
-option(ENABLE_CCACHE "Run ccache on for caching" ON)
+option(ENABLE_CCACHE "Run ccache on for caching" OFF)
 
 if(ENABLE_CPPCHECK)
     find_program(CPPCHECK cppcheck)
