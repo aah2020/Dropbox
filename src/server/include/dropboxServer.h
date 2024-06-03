@@ -11,7 +11,6 @@ namespace dropbox
             std::string dir_name;
             std::string ip;
             int port;
-            // ServerSocket server_sock;
         public:
             /// @brief DropboxServer constructor.
             /// @param name destination path name.

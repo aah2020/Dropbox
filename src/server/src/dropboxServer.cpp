@@ -26,7 +26,7 @@ void DropboxServer::start()
     Synchronizer synchronizer;
     std::thread t(std::ref(synchronizer), std::ref(dir_name), std::ref(connect_sock), std::ref(quit));
 
-    std::this_thread::sleep_for (std::chrono::seconds(10));
+    std::this_thread::sleep_for (std::chrono::seconds(30));
     quit = true;
     (void)quit;
 

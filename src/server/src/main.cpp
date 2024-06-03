@@ -18,8 +18,7 @@ int main(int argc, char *argv[])
 {
     AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::info);
 
-    // Initialize config-params with default values
-    std::string dir_name = "/home/kratos/dest_dir";
+    // Start with the default config values
     std::string ip = "127.0.0.1";
     int port = 8050;
 
@@ -31,7 +30,7 @@ int main(int argc, char *argv[])
     }
 
     // Get the directory name & check if it exists
-    // dir_name = argv[1];
+    std::string dir_name = argv[1];
     if (!dropbox::path_exists(dir_name))
     {
         LOG(ERROR) << "File does not exists.";
