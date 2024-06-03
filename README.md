@@ -53,3 +53,7 @@ The executable will be created in the `build` directory.
 * start client: `./src/client/DropboxClient` <source_directory>
 
 * Next add or remove any files or directory in the source directory, corresponding files will be updated in the destination_directory.
+
+
+## Running the Tests
+* Run the following command in build directory: `ctest`
