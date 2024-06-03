@@ -1,41 +1,41 @@
 #include <iostream>
-// #include <thread>
-// #include <string>
-#include "monitor.h"
-#include <functional>
-#include <atomic>
-#include <fileop.h>
+#include "log.hpp"
+#include "dropboxClient.h"
+#include "fileop.h"
 
-using namespace dropbox;
-
-void connect_to_server() {}
-
-int main()
+/// @brief Function to show usage information.
+void show_usage()
 {
-    std::cout << "Hello from client app!" << std::endl;
+    LOG(INFO) << "Usage: DropboxClient <PATH>" << std::endl;
+    LOG(INFO) << "Parameters:" << std::endl;
+    LOG(INFO) << "  PATH    Complete path to synchronization directory" << std::endl;
+}
 
-    // Get dir-name as an argument
-    std::string dir_name = "src_dir";
+int main(int argc, char *argv[])
+{
+    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::info);
 
-    // TODO: Connect to server
-    connect_to_server();
+    // Start with the default config values
+    std::string ip = "127.0.0.1";
+    int port = 8050;
 
-    // Start Monitoring
-    std::string s = "Client thread starts";
+    // Check dest-dir is provided or not.
+    if (argc < 2)
+    {
+        show_usage();
+        exit(EXIT_FAILURE);
+    }
 
-    json dir_listing;
-    dropbox::scan_dir("/home/kratos/pps/Dropbox/build/src", dir_listing);
+    // Get the directory name & check if it exists
+    std::string dir_name = argv[1];
+    if (!dropbox::path_exists(dir_name))
+    {
+        LOG(ERROR) << "File does not exists.";
+        exit(EXIT_FAILURE);
+    }
 
-    bool flag = false;
-    dropbox::Monitor monitor;
-    std::thread t(std::ref(monitor), "src_dir", std::ref(flag));
-    // std::this_thread::sleep_for(std::chrono::seconds(10));
-    std::cout << "Press enter to quit!" << std::endl;
-    // std::cin.get() ;
-
-    flag = true;
-    t.join();
-
+    dropbox::DropboxClient client(dir_name, ip, port);
+    client.start();
 
     return 0;
 }
