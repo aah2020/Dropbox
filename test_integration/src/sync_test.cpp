@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <chrono>
 #include <thread>
+#include <functional>
+#include <iostream>
 
 using namespace dropbox;
 
@@ -15,39 +17,44 @@ class SyncTest: public ::testing::Test
 public:
     SyncTest()
     {
-        int returnCode = system("mkdir -p ~/test_srcDir"); 
-        returnCode = system("mkdir -p ~/test_dstDir");
-        returnCode = system("touch ~/test_srcDir/abc.txt"); 
-        returnCode = system("touch ~/test_srcDir/abc.txt"); 
-        returnCode = system("touch courrent_directory.txt"); 
     }
 
     void SetUp()
     {
-        auto returnCode = system("../src/server/DropboxServer ~/test_srcDir/");
-        // server->start();
-        // std::this_thread::sleep_for(std::chrono::milliseconds(5));
-        // code here will execute just before the test ensues
     }
 
     void TearDown()
     {
         // code here will be called just after the test completes
         // ok to through exceptions from here if need be
-        // delete sb;
+    }
+
+    void server_process()
+    {
+        DropboxServer* server = new DropboxServer("/home/kratos/test_dstDir/", "127.0.0.1", 8050);
+    }
+
+    void client_process()
+    {
+        DropboxClient* client = new DropboxClient("/home/kratos/test_srcDir/", "127.0.0.1", 8050);
     }
 
     ~SyncTest()
     {
         // cleanup any pending stuff, but no exceptions allowed
     }
-
-    // put in any custom data members that you need
-    // DropboxServer* server = new DropboxServer("/home/kratos/test_dstDir/", "127.0.0.1", 8050);
-    // DropboxClient* client = new DropboxClient("/home/kratos/test_srcDir/", "127.0.0.1", 8050);
 };
 
-TEST_F (SyncTest, AddFile)
+TEST_F (SyncTest, ClientServerCommunication)
 {
-    // auto returnCode = system("../src/client/DropboxClient ~/test_dstDir/");
+    int quit = false;
+    std::thread t1(std::bind(&SyncTest::server_process, this));
+    std::this_thread::sleep_for (std::chrono::seconds(5));
+    std::thread t2(std::bind(&SyncTest::client_process, this));
+    std::this_thread::sleep_for (std::chrono::seconds(10));
+    quit = true;
+    (void)quit;
+
+    t2.join();
+    t1.join();
 }
