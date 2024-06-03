@@ -15,7 +15,7 @@ void DropboxServer::start()
 
     // Wait for connection request
     auto connect_sock = server_sock.accept_connection();
-    if(connect_sock < 0)
+    if(connect_sock <= 0)
     {
         LOG(ERROR) << "Error in accpeting client request." << std::endl;
         exit(EXIT_FAILURE);
@@ -26,7 +26,7 @@ void DropboxServer::start()
     Synchronizer synchronizer;
     std::thread t(std::ref(synchronizer), std::ref(dir_name), std::ref(connect_sock), std::ref(quit));
 
-    std::this_thread::sleep_for (std::chrono::seconds(30));
+    std::this_thread::sleep_for (std::chrono::seconds(15));
     quit = true;
     (void)quit;
 

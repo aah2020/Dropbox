@@ -13,8 +13,7 @@ namespace dropbox
         ClientSocket(std::string ip_addr, int port);
 
         /// @brief Create a connecto to the server
-        /// @return true on succes.
-        bool create_connection();
+        void create_connection();
 
         /// @brief Send data to the destination
         /// @param data Data to be sent

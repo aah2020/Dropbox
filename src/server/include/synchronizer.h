@@ -25,7 +25,6 @@ namespace dropbox
             while(!quit)
             {
                 auto read_len = read_from(socket, buffer, SEGMENT_SIZE-1);
-                std::cout << "\n\nReceived data: " << buffer << std::endl;
                 if (read_len > 0)
                 {
                     buffer[read_len] = '\0';
@@ -37,7 +36,6 @@ namespace dropbox
                         {
                             if (entry.value()["msg_type"] == MsgType::META_DATA)
                             {
-                                std::cout << "  Received meta-data" << std::endl;
                                 std::string rel_path = entry.value()["full_path"];
                                 fname = dir_name + rel_path;
                                 if(entry.value()["sync_op"] == Opcode::DELETE)
@@ -62,8 +60,6 @@ namespace dropbox
                             }
                             else
                             {
-                                std::cout << "  Received payload" << std::endl;
-
                                 if (ofs.is_open())
                                 {
                                     ofs << entry.value()["content"];
@@ -83,6 +79,10 @@ namespace dropbox
                     {
                         LOG(ERROR) << e.what() << std::endl;
                     }
+                }
+                else
+                {
+                    LOG(WARNING) << "Closing server socket." << std::endl;
                 }
                 memset(buffer, 0, sizeof buffer);
             }

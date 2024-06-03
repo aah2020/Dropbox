@@ -10,7 +10,7 @@ using namespace dropbox;
 ClientSocket::ClientSocket(std::string ip_addr, int port) : Socket(ip_addr, port)
 {}
 
-bool ClientSocket::create_connection()
+void ClientSocket::create_connection()
 {
     if (connect(sock, (struct sockaddr *)&sock_addr, sizeof(sock_addr)) < 0)
     {
