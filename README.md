@@ -9,6 +9,11 @@ The implementation supports the following features:
 - Bonus 1: The application is optimized to identify the changes in the source directory on runtime and transfer only the newly added or removed files.
 - Bonus 2: Supports depth of source directory more than 1 i.e. any changes in the subdirectory is also identified.
 
+## Non-functional Requrements
+- `CI/CD` using Github framework.
+- Automated unit and integration testing using `GTest`.
+- Option to perform static code analysis using `CPPCheck` and `Clang-Tidy`.
+- Option to perform `Ccache` for fast compilation.
 
 ## Scope
 - Implemented for Unix platform only.
