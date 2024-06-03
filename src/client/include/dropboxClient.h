@@ -11,13 +11,18 @@ namespace dropbox
             std::string dir_name;
             std::string ip;
             int port;
+            int runtime;
         public:
-            /// @brief DropboxClient constructor.
-            /// @param name Source directory name.
-            DropboxClient(std::string name, std::string ip, int port)
+            /// @brief Dropbox client constructor
+            /// @param name Path to the source folder
+            /// @param ip IP address for the server
+            /// @param port port number for the server
+            /// @param runtime how long the client will run in seconds
+            DropboxClient(std::string name, std::string ip, int port, int runtime)
                         : dir_name(name)
                         , ip(ip)
-                        , port (port = 8050)
+                        , port (port)
+                        , runtime(runtime)
             {}
 
             /// @brief Start the client instance.

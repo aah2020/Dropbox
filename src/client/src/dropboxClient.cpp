@@ -18,7 +18,7 @@ void DropboxClient::start()
     Synchronizer synchronizer(client_sock);
     std::thread t(std::ref(synchronizer), std::ref(dir_name), std::ref(quit));
 
-    std::this_thread::sleep_for (std::chrono::seconds(15));
+    std::this_thread::sleep_for (std::chrono::seconds(runtime));
     quit = true;
     (void)quit;
 

@@ -55,7 +55,9 @@ The executable will be created in the `build` directory.
 
 ## Running the Project
 * start server: `./src/server/DropboxServer` <destination_directory>
+    - note that the default server runtime is 60 seconds. Provide necessary params for non-default values.
 * start client: `./src/client/DropboxClient` <source_directory>
+    - - note that the default client runtime is 60 seconds. Provide necessary params for non-default values.
 
 * Next add or remove any files or directory in the source directory, corresponding files will be updated in the destination_directory.
 

@@ -31,12 +31,12 @@ public:
 
     void server_process()
     {
-        DropboxServer* server = new DropboxServer("/home/kratos/test_dstDir/", "127.0.0.1", 8050);
+        DropboxServer* server = new DropboxServer("/home/kratos/test_dstDir/", "127.0.0.1", 8050, 10);
     }
 
     void client_process()
     {
-        DropboxClient* client = new DropboxClient("/home/kratos/test_srcDir/", "127.0.0.1", 8050);
+        DropboxClient* client = new DropboxClient("/home/kratos/test_srcDir/", "127.0.0.1", 8050, 10);
     }
 
     ~SyncTest()
@@ -49,7 +49,7 @@ TEST_F (SyncTest, ClientServerCommunication)
 {
     int quit = false;
     std::thread t1(std::bind(&SyncTest::server_process, this));
-    std::this_thread::sleep_for (std::chrono::seconds(5));
+    std::this_thread::sleep_for (std::chrono::seconds(1));
     std::thread t2(std::bind(&SyncTest::client_process, this));
     std::this_thread::sleep_for (std::chrono::seconds(10));
     quit = true;
