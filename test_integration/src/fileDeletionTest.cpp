@@ -46,14 +46,14 @@ public:
 
     void server_process()
     {
-        DropboxServer server(dst_dir, "127.0.0.1", 8051, 50);
+        DropboxServer server(dst_dir, "127.0.0.1", 8054, 50);
         std::cerr << "Starting server" << std::endl;
         server.start();
     }
 
     void client_process()
     {
-        DropboxClient client(src_dir, "127.0.0.1", 8051, 50);
+        DropboxClient client(src_dir, "127.0.0.1", 8054, 50);
         client.start();
     }
 
