@@ -24,12 +24,12 @@ void ServerSocket::bind_socket()
 
 void ServerSocket::set_listen_set()
 {
-    if (listen(sock, 1) < 0)
+    if (listen(sock, 3) < 0)
     {
         LOG(ERROR) << "Listen failed." << std::endl;
         exit(EXIT_FAILURE);
     }
-    LOG(INFO) << "Socket in Listen State (Max Connection Queue: 1)" << std::endl;
+    LOG(INFO) << "Socket in Listen State (Max Connection Queue: 3)" << std::endl;
 }
 
 int ServerSocket::accept_connection()

@@ -22,7 +22,7 @@ namespace dropbox
             DropboxServer(std::string name, std::string ip, int port, int runtime)
                         : dir_name(name)
                         , ip(ip)
-                        , port (port = 8050)
+                        , port (port)
                         , runtime (runtime)
             {}
 

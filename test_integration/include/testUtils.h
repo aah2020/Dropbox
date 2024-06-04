@@ -2,8 +2,5 @@
 
 namespace dropbox
 {
-    bool compare_directories()
-    {
-        return true;
-    }
+    // Required helpers for test.
 }

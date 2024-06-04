@@ -33,7 +33,7 @@ Before you begin, ensure you have met the following requirements:
 - CCache (optional)
 
 ## Project Tree
-![Alt text](./docs/src_tree.png?raw=true "Project tree")
+![Alt text](./docs/project_tree.png?raw=true "Project tree")
 
 ## Setting Up the Project
 To set up the HelloWorld project, follow these steps:
