@@ -55,8 +55,8 @@ namespace dropbox
 
                             std::string data_sent = msg.dump();
                             socket.send_to(data_sent.c_str(), data_sent.length());
-                            std::cout << "\n\nSending meta data:" << std::endl;
-                            std::cout << data_sent.c_str();
+                            LOG(DEBUG) << "\n\nSending meta data:" << std::endl;
+                            LOG(DEBUG) << data_sent.c_str() << std::endl;
 
                             if (entry.second.is_dir == false && (entry.second.sync_op != Opcode::DELETE))
                             {
@@ -74,8 +74,8 @@ namespace dropbox
 
                                     socket.send_to(buffer.c_str(), buffer.length());
                                     tx_size = tx_size - (SEGMENT_SIZE-1);
-                                    std::cout << "\nSending payload:" << std::endl;
-                                    std::cout << buffer.c_str();
+                                    LOG(DEBUG) << "\nSending payload:" << std::endl;
+                                    LOG(DEBUG) << buffer.c_str() << std::endl;
                                 }
                             }
                         }

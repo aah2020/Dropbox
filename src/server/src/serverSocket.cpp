@@ -37,10 +37,10 @@ int ServerSocket::accept_connection()
     int socket_dp;
     if ((socket_dp = accept(sock, (struct sockaddr *)&sock_addr, (socklen_t*)&address_length)) < 0)
     {
-        LOG(ERROR) << "Accept failed.\n";
+        LOG(ERROR) << "Accept failed." << std::endl;
         exit(EXIT_FAILURE);
     }
-    LOG(INFO) << "Connected to Client.\n";
+    LOG(INFO) << "Connected to Client." << std::endl;
     return socket_dp;
 }
 

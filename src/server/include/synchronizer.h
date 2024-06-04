@@ -22,16 +22,18 @@ namespace dropbox
         void operator()(std::string dir_name, int socket, bool &quit)
         {
             std::ofstream ofs;
+            std::string fname;
             while(!quit)
             {
                 auto read_len = read_from(socket, buffer, SEGMENT_SIZE-1);
+                LOG(DEBUG) << "\n\nData received:" << std::endl;
+                LOG(DEBUG) << buffer << std::endl;
                 if (read_len > 0)
                 {
                     buffer[read_len] = '\0';
                     try
                     {
                         auto msg = json::parse(buffer);
-                        std::string fname;
                         for (const auto& entry : msg.items())
                         {
                             if (entry.value()["msg_type"] == MsgType::META_DATA)
@@ -53,6 +55,7 @@ namespace dropbox
                                     {
                                         if (!ofs.is_open())
                                         {
+                                            LOG(DEBUG) << "Trying to create a file: " << fname << std::endl;
                                             ofs = open(fname);
                                         }
                                     }
@@ -60,6 +63,7 @@ namespace dropbox
                             }
                             else
                             {
+                                LOG(DEBUG) << "received file content" << std::endl;
                                 if (ofs.is_open())
                                 {
                                     ofs << entry.value()["content"];
@@ -83,6 +87,7 @@ namespace dropbox
                 else
                 {
                     LOG(WARNING) << "Closing server socket." << std::endl;
+                    break;
                 }
                 memset(buffer, 0, sizeof buffer);
             }

@@ -14,10 +14,10 @@ void ClientSocket::create_connection()
 {
     if (connect(sock, (struct sockaddr *)&sock_addr, sizeof(sock_addr)) < 0)
     {
-        LOG(ERROR) << "Connection attempt failed!";
+        LOG(ERROR) << "Connection attempt failed!" << std::endl;
         exit(EXIT_FAILURE);
     }
-    LOG(INFO) << "Connection Successfull.";
+    LOG(INFO) << "Connection Successfull." << std::endl;
 }
 
 ssize_t ClientSocket::send_to(const void* data, size_t len)
@@ -26,11 +26,11 @@ ssize_t ClientSocket::send_to(const void* data, size_t len)
     auto bytes_sent = send(sock, data, len, 0);
     if (bytes_sent > 0)
     {
-        LOG(INFO) << "Transmitted file Size "<< bytes_sent <<" Bytes.";
+        LOG(INFO) << "Transmitted file Size "<< bytes_sent <<" Bytes." << std::endl;
     }
     else
     {
-        LOG(ERROR) << "Failed to send data!";
+        LOG(ERROR) << "Failed to send data!" << std::endl;
     }
     return bytes_sent;
 }

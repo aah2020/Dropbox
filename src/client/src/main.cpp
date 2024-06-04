@@ -16,8 +16,6 @@ void show_usage()
 
 int main(int argc, char *argv[])
 {
-    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::info);
-
     // Start with the default config values
     std::string ip = "127.0.0.1";
     int port = 8050;
@@ -45,6 +43,12 @@ int main(int argc, char *argv[])
         port = atoi(argv[3]);
         runtime = atoi(argv[4]);
     }
+
+    LOG(INFO) << "Client config param:" << std::endl;
+    LOG(INFO) << "Dir path:" << dir_name << std::endl;
+    LOG(INFO) << "IP:" << ip << std::endl;
+    LOG(INFO) << "Dir path:" << dir_name << std::endl;
+    LOG(INFO) << "Runtime:" << runtime << std::endl;
 
     dropbox::DropboxClient client(dir_name, ip, port, runtime);
     client.start();

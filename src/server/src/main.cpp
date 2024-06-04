@@ -19,8 +19,6 @@ void show_usage()
 
 int main(int argc, char *argv[])
 {
-    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::info);
-
     // Start with the default config values
     std::string ip = "127.0.0.1";
     int port = 8050;

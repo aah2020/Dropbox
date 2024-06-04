@@ -167,27 +167,24 @@ void dropbox::display_entries(const DirEntries& entries)
 {
     if (entries.empty())
     {
-        LOG(WARNING) << "Empty directory list.";
+        LOG(WARNING) << "Empty directory list." << std::endl;
         return;
     }
 
     for (const auto& entry : entries)
     {
-        std::cout << entry.first << " : " << entry.second.size << ", ";
+        LOG(DEBUG) << entry.first << " : " << entry.second.size << ", " << std::endl;
         switch(entry.second.sync_op)
         {
             case Opcode::SKIP:
-                std::cout << " SKIP " << std::endl;
+                LOG(DEBUG) << " SKIP " << std::endl;
                 break;
             case Opcode::CREATE:
-                std::cout << " CREATE" << std::endl;
+                LOG(DEBUG) << " CREATE" << std::endl;
                 break;
-            case Opcode::DELETE
-            :
-                std::cout << " DELETE" << std::endl;
+            case Opcode::DELETE:
+                LOG(DEBUG) << " DELETE" << std::endl;
                 break;
-
         }
     }
-    std::cout << "--------------------------" << std::endl;
 }

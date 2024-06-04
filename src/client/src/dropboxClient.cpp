@@ -8,7 +8,11 @@ using namespace dropbox;
 
 void DropboxClient::start()
 {
-    // Start the server
+    auto sink_cout = std::make_shared<AixLog::SinkCout>(AixLog::Severity::trace);
+    auto sink_file = std::make_shared<AixLog::SinkFile>(AixLog::Severity::trace, "client_start.log");
+    AixLog::Log::init({sink_cout, sink_file});
+
+    // Create client socket
     auto client_sock = ClientSocket(ip, port);
 
     // Create connection
@@ -22,5 +26,9 @@ void DropboxClient::start()
     quit = true;
     (void)quit;
 
+    // Wait for the thread to join
     t.join();
+
+    // Close the socket connection
+    client_sock.close_socket();
 }
