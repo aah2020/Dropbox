@@ -11,8 +11,11 @@ The implementation supports the following features:
 
 ## Non-functional Requrements
 - `CI/CD` using Github framework.
-- Automated unit and integration testing using `GTest`.
-- Option to perform static code analysis using `CPPCheck` and `Clang-Tidy`.
+- Automated `unit` and `integration testing` using `GTest`.
+- Console and file based logging support.
+- Option to perform static code analysis using
+    - `CPPCheck` and
+    - `Clang-Tidy`.
 - Option to perform `Ccache` for fast compilation.
 
 ## Scope
@@ -21,15 +24,15 @@ The implementation supports the following features:
 - Performance and security issues are put out of the scope of this project.
 
 ## Prerequisites
-
 Before you begin, ensure you have met the following requirements:
 - CMake.
 - A modern C++ compiler (GCC).
 - GTest
-
+- CPPCheck (optional)
+- Clang-Tidy (optional)
+- CCache (optional)
 
 ## Setting Up the Project
-
 To set up the HelloWorld project, follow these steps:
 
 1. Clone the repository to your local machine:
@@ -39,7 +42,6 @@ To set up the HelloWorld project, follow these steps:
 `cd Dropbox`
 
 ## Building the Project
-
 To build the project using CMake, run the following commands:
 
 1. Create a build directory and navigate into it:
@@ -63,4 +65,4 @@ The executable will be created in the `build` directory.
 
 
 ## Running the Tests
-* Run the following command in build directory: `ctest`
+* Run the following command in build directory: `ctest` or `ctest -V`.
