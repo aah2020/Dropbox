@@ -11,7 +11,8 @@ SET(TEST_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/GTestMain.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/singleFileAdditionTest.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/multipleFilesAdditionTest.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/filesAndDirectoryAdditionTest.cpp)
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/filesAndDirectoryAdditionTest.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/fileDeletionTest.cpp)
 add_executable(${BINARY} ${TEST_SRC})
 add_test(NAME ${BINARY} COMMAND ${BINARY})
 

@@ -16,34 +16,36 @@ void show_usage()
 
 int main(int argc, char *argv[])
 {
+    auto sink_cout = std::make_shared<AixLog::SinkCout>(AixLog::Severity::info);
+
     // Start with the default config values
     std::string ip = "127.0.0.1";
     int port = 8050;
     int runtime = 60;
-    std::string dir_name = "/home/kratos/test_srcDir/";
+    // std::string dir_name = "/home/kratos/test_srcDir/";
 
-    // // Check dest-dir is provided or not.
-    // if (argc < 2)
-    // {
-    //     show_usage();
-    //     exit(EXIT_FAILURE);
-    // }
+    // Check dest-dir is provided or not.
+    if (argc < 2)
+    {
+        show_usage();
+        exit(EXIT_FAILURE);
+    }
 
-    // // Get the directory name & check if it exists
-    // std::string dir_name = argv[1];
-    // if (!dropbox::path_exists(dir_name))
-    // {
-    //     LOG(ERROR) << "File does not exists.";
-    //     exit(EXIT_FAILURE);
-    // }
+    // Get the directory name & check if it exists
+    std::string dir_name = argv[1];
+    if (!dropbox::path_exists(dir_name))
+    {
+        LOG(ERROR) << "File does not exists.";
+        exit(EXIT_FAILURE);
+    }
 
-    // // Check for the additional user params
-    // if (argc == 5)
-    // {
-    //     ip = argv[2];
-    //     port = atoi(argv[3]);
-    //     runtime = atoi(argv[4]);
-    // }
+    // Check for the additional user params
+    if (argc == 5)
+    {
+        ip = argv[2];
+        port = atoi(argv[3]);
+        runtime = atoi(argv[4]);
+    }
 
     LOG(INFO) << "Client config param:" << std::endl;
     LOG(INFO) << "Dir path:" << dir_name << std::endl;

@@ -173,7 +173,6 @@ void dropbox::display_entries(const DirEntries& entries)
 
     for (const auto& entry : entries)
     {
-        LOG(DEBUG) << entry.first << " : " << entry.second.size << ", " << std::endl;
         switch(entry.second.sync_op)
         {
             case Opcode::SKIP:
