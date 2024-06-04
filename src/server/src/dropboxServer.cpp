@@ -8,8 +8,8 @@ using namespace dropbox;
 
 void DropboxServer::start()
 {
-    auto sink_cout = std::make_shared<AixLog::SinkCout>(AixLog::Severity::trace);
-    auto sink_file = std::make_shared<AixLog::SinkFile>(AixLog::Severity::trace, "server.log");
+    auto sink_cout = std::make_shared<AixLog::SinkCout>(AixLog::Severity::info);
+    auto sink_file = std::make_shared<AixLog::SinkFile>(AixLog::Severity::info, "server.log");
     AixLog::Log::init({sink_cout, sink_file});
 
     LOG(DEBUG) << "params: " << dir_name << ", " << ip << ", " << port << std::endl;

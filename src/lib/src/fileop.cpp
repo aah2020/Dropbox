@@ -105,7 +105,7 @@ bool dropbox::scan_dir(const std::string& path, DirEntries& dir_entries)
             entry.size = statDat.st_size;
             entry.is_dir = fs::is_directory(path.c_str());
             entry.sync_op = Opcode::CREATE;
-            dir_entries[path.filename()] = entry;
+            dir_entries.emplace(path.filename(), entry);
         }
         else
         {

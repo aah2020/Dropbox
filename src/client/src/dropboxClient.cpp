@@ -8,8 +8,8 @@ using namespace dropbox;
 
 void DropboxClient::start()
 {
-    auto sink_cout = std::make_shared<AixLog::SinkCout>(AixLog::Severity::trace);
-    auto sink_file = std::make_shared<AixLog::SinkFile>(AixLog::Severity::trace, "client_start.log");
+    auto sink_cout = std::make_shared<AixLog::SinkCout>(AixLog::Severity::info);
+    auto sink_file = std::make_shared<AixLog::SinkFile>(AixLog::Severity::info, "client.log");
     AixLog::Log::init({sink_cout, sink_file});
 
     // Create client socket

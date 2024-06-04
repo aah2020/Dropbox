@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
     std::string ip = "127.0.0.1";
     int port = 8050;
     int runtime = 60;
+    // std::string dir_name = "/home/kratos/test_dstDir/";
 
     // Check dest-dir is provided or not.
     if (argc < 2)

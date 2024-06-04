@@ -1,7 +1,7 @@
 #pragma once
 
 #include <fstream>
-#include <unordered_map>
+#include <map>
 
 namespace dropbox
 {
@@ -31,7 +31,7 @@ namespace dropbox
     };
 
     /// @brief List of files with corresponding stats
-    typedef std::unordered_map<std::string, FileStat> DirEntries;
+    typedef std::map<std::string, FileStat> DirEntries;
 
     /// @brief Chieck if path exists
     /// @param path Full path to check
