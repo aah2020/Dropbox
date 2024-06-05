@@ -26,7 +26,7 @@ ssize_t ClientSocket::send_to(const void* data, size_t len)
     auto bytes_sent = send(sock, data, len, 0);
     if (bytes_sent > 0)
     {
-        LOG(INFO) << "Transmitted file Size "<< bytes_sent <<" Bytes." << std::endl;
+        LOG(DEBUG) << "Transmitted file Size "<< bytes_sent <<" Bytes." << std::endl;
     }
     else
     {

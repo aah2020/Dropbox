@@ -7,6 +7,7 @@
 #include "json.hpp"
 
 #define SEGMENT_SIZE 1024   // Maximum buffer length for reading/writing operation.
+#define SCAN_INTERVAL 10    // Scan directory after every 10 sec.
 
 namespace dropbox
 {
@@ -35,6 +36,7 @@ namespace dropbox
 
             bool synchronize_dir(std::string dir_name, DirEntries &target_state)
             {
+                bool sync_done = false;
                 try
                 {
                     for (auto &entry: target_state)
@@ -42,6 +44,7 @@ namespace dropbox
                         json msg;
                         if(entry.second.sync_op != Opcode::SKIP)
                         {
+                            sync_done = true;
                             // First send the meta data of the file
                             json meta;
                             meta["msg_type"] = MsgType::META_DATA;
@@ -86,6 +89,15 @@ namespace dropbox
                     LOG(ERROR) << e.what() << std::endl;
                     return false;
                 }
+
+                // for(const auto& i: deleted_entries)
+                // {
+                //     target_state.erase(target_state.find(i));
+                // }
+                // deleted_entries.clear();
+
+                if (sync_done) std::cout << "Returning true" << std::endl;
+                return sync_done;
             }
 
         public:
@@ -97,17 +109,32 @@ namespace dropbox
                 {
                     // Scan source dir to get current state
                     scan_dir(dir_name, cur_entries);
-                    display_entries(cur_entries);
 
                     // Compare with the old list and detect changes
                     get_diff(cur_entries, prev_entries);
-                    display_entries(cur_entries);
 
                     // Synchronize remote directory
                     bool res = synchronize_dir(dir_name, cur_entries);
-
-                    std::this_thread::sleep_for(std::chrono::seconds(10));
-                    prev_entries = cur_entries;
+                    if (res)
+                    {
+                        LOG(INFO) << "\n\n Summary of sync operatopm:" << std::endl;
+                        for (const auto& i: cur_entries)
+                        {
+                            if (i.second.sync_op != Opcode::SKIP)
+                            {
+                                if (i.second.sync_op == Opcode::CREATE)
+                                {
+                                    LOG(INFO) << "\t " << i.first << " :" << "Created" << std::endl;
+                                }
+                                else if (i.second.sync_op == Opcode::DELETE)
+                                {
+                                    LOG(INFO) << "\t " << i.first << " :" << "Deleted" << std::endl;
+                                }
+                            }
+                        }
+                        prev_entries = cur_entries;
+                    }
+                    std::this_thread::sleep_for(std::chrono::seconds(SCAN_INTERVAL));
                 }
             }
     };

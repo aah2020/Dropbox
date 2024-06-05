@@ -132,7 +132,7 @@ void dropbox::get_diff(DirEntries& cur_state, const DirEntries& prev_state)
             auto it = cur_state.find(i.first);
             if (it != cur_state.end())  // exists on both lists
             {
-                it->second.sync_op = Opcode::SKIP; 
+                it->second.sync_op = Opcode::SKIP;
             }
             else // entry is not in the new list, perform delete operation
             {   

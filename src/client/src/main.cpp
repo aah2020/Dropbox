@@ -47,11 +47,11 @@ int main(int argc, char *argv[])
         runtime = atoi(argv[4]);
     }
 
-    LOG(INFO) << "Client config param:" << std::endl;
-    LOG(INFO) << "Dir path:" << dir_name << std::endl;
-    LOG(INFO) << "IP:" << ip << std::endl;
-    LOG(INFO) << "Dir path:" << dir_name << std::endl;
-    LOG(INFO) << "Runtime:" << runtime << std::endl;
+    LOG(INFO) << " Client config param:" << std::endl;
+    LOG(INFO) << " Dir path:" << dir_name << std::endl;
+    LOG(INFO) << " IP:" << ip << std::endl;
+    LOG(INFO) << " Dir path:" << dir_name << std::endl;
+    LOG(INFO) << " Runtime:" << runtime << std::endl;
 
     dropbox::DropboxClient client(dir_name, ip, port, runtime);
     client.start();
