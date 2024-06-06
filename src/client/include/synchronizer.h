@@ -18,6 +18,7 @@ namespace dropbox
         private:
             ClientSocket socket;
             DirEntries cur_entries, prev_entries;
+            std::vector<std::string> clear_list;
 
             std::string get_content(std::string fname)
             {
@@ -90,13 +91,6 @@ namespace dropbox
                     return false;
                 }
 
-                // for(const auto& i: deleted_entries)
-                // {
-                //     target_state.erase(target_state.find(i));
-                // }
-                // deleted_entries.clear();
-
-                if (sync_done) std::cout << "Returning true" << std::endl;
                 return sync_done;
             }
 
@@ -109,6 +103,7 @@ namespace dropbox
                 {
                     // Scan source dir to get current state
                     scan_dir(dir_name, cur_entries);
+                    display_entries(cur_entries);
 
                     // Compare with the old list and detect changes
                     get_diff(cur_entries, prev_entries);
@@ -117,22 +112,29 @@ namespace dropbox
                     bool res = synchronize_dir(dir_name, cur_entries);
                     if (res)
                     {
-                        LOG(INFO) << "\n\n Summary of sync operatopm:" << std::endl;
+                        LOG(INFO) << "\n\n Summary of sync operation:" << std::endl;
                         for (const auto& i: cur_entries)
                         {
                             if (i.second.sync_op != Opcode::SKIP)
                             {
                                 if (i.second.sync_op == Opcode::CREATE)
                                 {
-                                    LOG(INFO) << "\t " << i.first << " :" << "Created" << std::endl;
+                                    LOG(INFO) << "\t " << i.first << ":" << " Created" << std::endl;
                                 }
                                 else if (i.second.sync_op == Opcode::DELETE)
                                 {
-                                    LOG(INFO) << "\t " << i.first << " :" << "Deleted" << std::endl;
+                                    LOG(INFO) << "\t " << i.first << ":" << " Deleted" << std::endl;
+                                    clear_list.push_back(i.first);
                                 }
                             }
                         }
+
+                        for (auto i: clear_list)
+                        {
+                            cur_entries.erase(i);
+                        }
                         prev_entries = cur_entries;
+                        clear_list.clear();
                     }
                     std::this_thread::sleep_for(std::chrono::seconds(SCAN_INTERVAL));
                 }

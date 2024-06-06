@@ -176,12 +176,15 @@ void dropbox::display_entries(const DirEntries& entries)
         switch(entry.second.sync_op)
         {
             case Opcode::SKIP:
-                LOG(DEBUG) << " SKIP " << std::endl;
+                LOG(INFO) << "\n" << entry.first; 
+                LOG(DEBUG) << " SKIP";
                 break;
             case Opcode::CREATE:
+                LOG(INFO) << "\n" << entry.first; 
                 LOG(DEBUG) << " CREATE" << std::endl;
                 break;
             case Opcode::DELETE:
+                LOG(INFO) << "\n" << entry.first; 
                 LOG(DEBUG) << " DELETE" << std::endl;
                 break;
         }

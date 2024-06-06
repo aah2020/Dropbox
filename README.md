@@ -66,6 +66,8 @@ The executable will be created in the `build` directory.
 
 * Next add or remove any files or directory in the source directory, corresponding files will be updated in the destination_directory.
 
+## Installation directory
+* Project binaries and libraries will be created inside `<Project Root Directory>/install` directory.
 
 ## Running the Tests
 * Run the following command in build directory: `ctest` or `ctest -V`.

@@ -13,6 +13,10 @@ option(ENABLE_CLANG_TIDY "Run ClangTidy on for code fomatting" OFF)
 option(ENABLE_COVERAGE "Run Coverage on for test coverage" OFF)
 option(ENABLE_CCACHE "Run ccache on for caching" OFF)
 
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/install/bin )
+set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/install/lib )
+set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/install/lib )
+
 if(ENABLE_CPPCHECK)
     find_program(CPPCHECK cppcheck)
     if(CPPCHECK)
@@ -29,11 +33,6 @@ if(ENABLE_CPPCHECK)
     message(SEND_ERROR "cppcheck requested but executable not found")
     endif()
 endif()
-
-# set(CPPCHECK_EXCLUDES
-#     ${CMAKE_SOURCE_DIR}/extern/
-#     ${CMAKE_BINARY_DIR}/
-# )
 
 if(ENABLE_CLANG_TIDY)
     find_program(CLANGTIDY clang-tidy)
@@ -61,7 +60,6 @@ enable_testing()
 add_subdirectory(extern)
 add_subdirectory(src)
 add_subdirectory(test_integration)
-
 
 message("\n")
 message("#########################################")

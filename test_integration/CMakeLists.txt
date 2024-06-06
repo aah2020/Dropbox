@@ -4,9 +4,6 @@ set(BINARY ${CMAKE_PROJECT_NAME}_Integration_Test)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-set(THREADS_PREFER_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
-
 SET(TEST_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/GTestMain.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/singleFileAdditionTest.cpp
