@@ -132,7 +132,15 @@ void dropbox::get_diff(DirEntries& cur_state, const DirEntries& prev_state)
             auto it = cur_state.find(i.first);
             if (it != cur_state.end())  // exists on both lists
             {
-                it->second.sync_op = Opcode::SKIP;
+                if( (it->second.size == i.second.size) && (it->second.mod_time == i.second.mod_time) )
+                {
+                    it->second.sync_op = Opcode::SKIP;
+                }
+                else
+                {
+                    // File is changed - based on content size and modification time.
+                    // Add the modified file.
+                }
             }
             else // entry is not in the new list, perform delete operation
             {   
